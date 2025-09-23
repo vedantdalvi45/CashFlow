@@ -1,11 +1,12 @@
 package com.vedalvi.CashFlow.service;
 
+import com.vedalvi.CashFlow.dto.modeldto.CategoryDto;
 import com.vedalvi.CashFlow.model.Category;
 
 import java.util.List;
 
 public interface CategoryService {
-    Category createCategory(Category categoryDto, String userEmail);
+    Category createCategory(CategoryDto categoryDto, String userEmail);
 
     List<Category> getCategoriesForUser(String userEmail);
 

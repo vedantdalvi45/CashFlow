@@ -1,7 +1,5 @@
 package com.vedalvi.CashFlow.service.impl;
 
-import com.vedalvi.CashFlow.exception.ResourceNotFoundException;
-import com.vedalvi.CashFlow.exception.TransactionNotFoundException;
 import com.vedalvi.CashFlow.exception.UserNotFoundException;
 import com.vedalvi.CashFlow.model.Transaction;
 import com.vedalvi.CashFlow.model.User;
