@@ -1,6 +1,8 @@
 package com.vedalvi.CashFlow.service.impl;
 
 import com.vedalvi.CashFlow.exception.ResourceNotFoundException;
+import com.vedalvi.CashFlow.exception.TransactionNotFoundException;
+import com.vedalvi.CashFlow.exception.UserNotFoundException;
 import com.vedalvi.CashFlow.model.Transaction;
 import com.vedalvi.CashFlow.model.User;
 import com.vedalvi.CashFlow.repository.TransactionRepository;
@@ -27,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction createTransaction(Transaction transaction) {
         User user = userRepository.findById(transaction.getUser().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + transaction.getUser().getId()));
+                .orElseThrow(() -> new UserNotFoundException(transaction.getUser().getId()));
         transaction.setUser(user);
         return transactionRepository.save(transaction);
     }
@@ -45,9 +47,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getTransactionsByUserId(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        return transactionRepository.findByUser(user);
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        List<Transaction> transactions = transactionRepository.findByUser(user);
 
+        return transactions;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getTransactionsByType(String type) {
-        return List.of();
+        return transactionRepository.getTransactionsByType(type);
     }
 
     @Override

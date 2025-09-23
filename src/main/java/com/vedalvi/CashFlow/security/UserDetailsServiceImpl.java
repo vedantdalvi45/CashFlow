@@ -1,6 +1,7 @@
 package com.vedalvi.CashFlow.security;
 
 
+import com.vedalvi.CashFlow.exception.UserNotFoundException;
 import com.vedalvi.CashFlow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // Here, username is the email
         return userRepository.findByEmail(username)
                 .map(CustomUserDetails::new) // Wrap the User object
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+                .orElseThrow(() -> new UserNotFoundException((long)1));
     }
 }
