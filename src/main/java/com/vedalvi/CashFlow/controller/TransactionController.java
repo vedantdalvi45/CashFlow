@@ -26,5 +26,4 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    // Add POST, PUT, DELETE endpoints here
 }

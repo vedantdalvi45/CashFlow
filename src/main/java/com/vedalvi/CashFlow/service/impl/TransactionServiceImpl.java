@@ -26,7 +26,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction createTransaction(Transaction transaction) {
-        return null;
+        User user = userRepository.findById(transaction.getUser().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + transaction.getUser().getId()));
+        transaction.setUser(user);
+        return transactionRepository.save(transaction);
     }
 
     @Override
