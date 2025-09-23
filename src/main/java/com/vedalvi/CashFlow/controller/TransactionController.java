@@ -22,7 +22,7 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        List<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getUsername());
+        List<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getUserId());
         return ResponseEntity.ok(transactions);
     }
 

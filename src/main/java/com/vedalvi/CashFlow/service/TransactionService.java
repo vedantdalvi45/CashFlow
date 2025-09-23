@@ -12,7 +12,7 @@ public interface TransactionService {
 
     List<Transaction> getAllTransactions();
 
-    List<Transaction> getTransactionsByUserId(String userId);
+    List<Transaction> getTransactionsByUserId(Long userId);
 
     Transaction updateTransaction(Long id, Transaction transaction);
 
