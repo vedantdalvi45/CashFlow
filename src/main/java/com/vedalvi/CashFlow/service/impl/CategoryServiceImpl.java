@@ -1,6 +1,7 @@
 package com.vedalvi.CashFlow.service.impl;
 
 import com.vedalvi.CashFlow.dto.modeldto.CategoryDto;
+import com.vedalvi.CashFlow.exception.DuplicateEntryException;
 import com.vedalvi.CashFlow.exception.UserNotFoundException;
 import com.vedalvi.CashFlow.model.Category;
 import com.vedalvi.CashFlow.repository.CategoryRepository;
@@ -24,9 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(CategoryDto categoryDto, String userEmail) {
+        Category category1 = categoryRepository.findCategoryByName(categoryDto.getName());
+
+        if (category1.getName().equals(categoryDto.getName()))
+            throw new DuplicateEntryException("Category already exists");
+
+
         Category category = Category.builder()
                 .user(userRepository.findByEmail(userEmail)
-                        .orElseThrow(()->new UserNotFoundException(userEmail)))
+                        .orElseThrow(() -> new UserNotFoundException(userEmail)))
                 .name(categoryDto.getName())
                 .imageUrl(categoryDto.getImageUrl())
                 .categoryType(categoryDto.getCategoryType())
@@ -37,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getCategoriesForUser(String userEmail) {
         userRepository.findByEmail(userEmail)
-                .orElseThrow(()->new UserNotFoundException(userEmail));
+                .orElseThrow(() -> new UserNotFoundException(userEmail));
         List<Category> categories = categoryRepository.findByUserEmail(userEmail);
         return categories;
     }
