@@ -26,12 +26,18 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category createCategory(CategoryDto categoryDto, String userEmail) {
         Category category1 = categoryRepository.findCategoryByName(categoryDto.getName());
+        if (category1 != null) {
+            if (category1.getName().equals(categoryDto.getName()))
+                throw new DuplicateEntryException("Category already exists");
+        }
 
-        if (category1.getName().equals(categoryDto.getName()))
-            throw new DuplicateEntryException("Category already exists");
-
-
-        Category category = Category.builder().user(userRepository.findByEmail(userEmail).orElseThrow(() -> new NotFoundException("Username Not Found"))).name(categoryDto.getName()).imageUrl(categoryDto.getImageUrl()).categoryType(categoryDto.getCategoryType()).build();
+        Category category = Category.builder()
+                .user(userRepository.findByEmail(userEmail)
+                        .orElseThrow(() -> new NotFoundException("Username Not Found")))
+                .name(categoryDto.getName())
+                .imageUrl(categoryDto.getImageUrl())
+                .categoryType(categoryDto.getCategoryType())
+                .build();
         return categoryRepository.save(category);
     }
 
@@ -49,6 +55,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long categoryId, String userEmail) {
+        userRepository.findByEmail(userEmail).orElseThrow(() -> new NotFoundException("Username Not Found"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Category Not Found"));
+        if (!category.getUser().getEmail().equals(userEmail)) {
+            throw new IllegalArgumentException("Category does not belong to the specified user.");
+        }
+        categoryRepository.delete(category);
 
     }
 }

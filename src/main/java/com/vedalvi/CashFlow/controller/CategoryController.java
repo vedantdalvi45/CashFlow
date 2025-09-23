@@ -31,6 +31,7 @@ public class CategoryController {
 
         Category createdCategory = categoryService.createCategory(categoryDto, currentUser.getUsername());
         CategoriesResponse categoriesResponse = CategoriesResponse.builder()
+                .id(createdCategory.getId())
                 .name(createdCategory.getName())
                 .imageUrl(createdCategory.getImageUrl())
                 .categoryType(createdCategory.getCategoryType().toString())
@@ -51,5 +52,11 @@ public class CategoryController {
                         .build())
                 .toList();
         return new ResponseEntity<>(categoriesResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        categoryService.deleteCategory(categoryId, currentUser.getUsername());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
