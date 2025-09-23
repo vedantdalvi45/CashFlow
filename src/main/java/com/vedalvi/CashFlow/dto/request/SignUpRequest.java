@@ -1,4 +1,4 @@
-package com.vedalvi.CashFlow.dto;
+package com.vedalvi.CashFlow.dto.request;
 
 
 import lombok.Data;

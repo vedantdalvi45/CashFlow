@@ -8,4 +8,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 
     List<Category> findByUserIdOrUserIdIsNull(Long userId);
+
+    List<Category> findByUserEmail(String userEmail);
 }

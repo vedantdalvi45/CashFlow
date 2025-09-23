@@ -7,11 +7,13 @@ import com.vedalvi.CashFlow.repository.CategoryRepository;
 import com.vedalvi.CashFlow.repository.UserRepository;
 import com.vedalvi.CashFlow.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
@@ -34,7 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getCategoriesForUser(String userEmail) {
-        return List.of();
+        userRepository.findByEmail(userEmail)
+                .orElseThrow(()->new UserNotFoundException(userEmail));
+        List<Category> categories = categoryRepository.findByUserEmail(userEmail);
+        return categories;
     }
 
     @Override

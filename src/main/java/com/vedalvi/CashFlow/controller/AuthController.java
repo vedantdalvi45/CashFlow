@@ -1,9 +1,9 @@
 package com.vedalvi.CashFlow.controller;
 
 
-import com.vedalvi.CashFlow.dto.JwtAuthResponse;
-import com.vedalvi.CashFlow.dto.LoginRequest;
-import com.vedalvi.CashFlow.dto.SignUpRequest;
+import com.vedalvi.CashFlow.dto.response.JwtAuthResponse;
+import com.vedalvi.CashFlow.dto.request.LoginRequest;
+import com.vedalvi.CashFlow.dto.request.SignUpRequest;
 import com.vedalvi.CashFlow.model.User;
 import com.vedalvi.CashFlow.model.enums.AccountType;
 import com.vedalvi.CashFlow.model.enums.UserRole;
