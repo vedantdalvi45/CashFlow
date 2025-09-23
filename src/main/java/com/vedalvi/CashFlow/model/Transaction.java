@@ -31,6 +31,8 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
+    @Column(nullable = false)
+    private Instant time;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
