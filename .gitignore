@@ -1,4 +1,6 @@
 HELP.md
+
+# Ignore build folders
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -14,7 +16,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -33,6 +35,5 @@ build/
 .vscode/
 
 # Ignore application properties with secrets
-.application.properties
-
-
+src/main/resources/application.properties
+src/main/resources/application-*.properties
