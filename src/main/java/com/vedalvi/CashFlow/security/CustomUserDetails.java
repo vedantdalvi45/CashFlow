@@ -14,6 +14,7 @@ public class CustomUserDetails implements UserDetails {
 
     private final User user;
 
+
     public CustomUserDetails(User user) {
         this.user = user;
     }
@@ -21,6 +22,10 @@ public class CustomUserDetails implements UserDetails {
     // Custom getter for our accountType
     public AccountType getAccountType() {
         return user.getAccountType();
+    }
+
+    public Long getUserId(){
+        return user.getId();
     }
 
     @Override

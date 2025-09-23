@@ -3,7 +3,7 @@ package com.vedalvi.CashFlow.controller;
 
 import com.vedalvi.CashFlow.model.Transaction;
 import com.vedalvi.CashFlow.security.CustomUserDetails;
-import com.vedalvi.CashFlow.service.TransactionService;
+import com.vedalvi.CashFlow.service.impl.TransactionServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,11 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionController {
 
-    private final TransactionService transactionService;
+    private final TransactionServiceImpl transactionService;
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        List<Transaction> transactions = transactionService.getTransactionsForUser(currentUser.getUsername());
+        List<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getUsername());
         return ResponseEntity.ok(transactions);
     }
 
