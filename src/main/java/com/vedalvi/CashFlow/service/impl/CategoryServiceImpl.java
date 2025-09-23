@@ -31,20 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
             throw new DuplicateEntryException("Category already exists");
 
 
-        Category category = Category.builder()
-                .user(userRepository.findByEmail(userEmail)
-                        .orElseThrow(() -> new UserNotFoundException(userEmail)))
-                .name(categoryDto.getName())
-                .imageUrl(categoryDto.getImageUrl())
-                .categoryType(categoryDto.getCategoryType())
-                .build();
+        Category category = Category.builder().user(userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail))).name(categoryDto.getName()).imageUrl(categoryDto.getImageUrl()).categoryType(categoryDto.getCategoryType()).build();
         return categoryRepository.save(category);
     }
 
     @Override
     public List<Category> getCategoriesForUser(String userEmail) {
-        userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(userEmail));
+        userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         List<Category> categories = categoryRepository.findByUserEmail(userEmail);
         return categories;
     }
