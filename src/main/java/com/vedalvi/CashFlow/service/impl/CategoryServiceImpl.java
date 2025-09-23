@@ -2,7 +2,7 @@ package com.vedalvi.CashFlow.service.impl;
 
 import com.vedalvi.CashFlow.dto.modeldto.CategoryDto;
 import com.vedalvi.CashFlow.exception.DuplicateEntryException;
-import com.vedalvi.CashFlow.exception.UserNotFoundException;
+import com.vedalvi.CashFlow.exception.NotFoundException;
 import com.vedalvi.CashFlow.model.Category;
 import com.vedalvi.CashFlow.repository.CategoryRepository;
 import com.vedalvi.CashFlow.repository.UserRepository;
@@ -31,13 +31,13 @@ public class CategoryServiceImpl implements CategoryService {
             throw new DuplicateEntryException("Category already exists");
 
 
-        Category category = Category.builder().user(userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail))).name(categoryDto.getName()).imageUrl(categoryDto.getImageUrl()).categoryType(categoryDto.getCategoryType()).build();
+        Category category = Category.builder().user(userRepository.findByEmail(userEmail).orElseThrow(() -> new NotFoundException("Username Not Found"))).name(categoryDto.getName()).imageUrl(categoryDto.getImageUrl()).categoryType(categoryDto.getCategoryType()).build();
         return categoryRepository.save(category);
     }
 
     @Override
     public List<Category> getCategoriesForUser(String userEmail) {
-        userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
+        userRepository.findByEmail(userEmail).orElseThrow(() -> new NotFoundException("Username Not Found"));
         List<Category> categories = categoryRepository.findByUserEmail(userEmail);
         return categories;
     }

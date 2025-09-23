@@ -1,6 +1,6 @@
 package com.vedalvi.CashFlow.service.impl;
 
-import com.vedalvi.CashFlow.exception.UserNotFoundException;
+import com.vedalvi.CashFlow.exception.NotFoundException;
 import com.vedalvi.CashFlow.model.Transaction;
 import com.vedalvi.CashFlow.model.User;
 import com.vedalvi.CashFlow.repository.TransactionRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction createTransaction(Transaction transaction) {
         User user = userRepository.findById(transaction.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException(transaction.getUser().getId()));
+                .orElseThrow(() -> new NotFoundException(transaction.getUser().getId()));
         transaction.setUser(user);
         return transactionRepository.save(transaction);
     }
@@ -45,7 +44,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getTransactionsByUserId(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+                .orElseThrow(() -> new NotFoundException(userId));
         List<Transaction> transactions = transactionRepository.findByUser(user);
 
         return transactions;

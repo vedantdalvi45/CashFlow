@@ -1,11 +1,11 @@
 package com.vedalvi.CashFlow.exception;
 
-public class UserNotFoundException extends RuntimeException{
-    public UserNotFoundException(Long id) {
+public class NotFoundException extends RuntimeException{
+    public NotFoundException(Long id) {
         super("User not found with id: " + id);
     }
 
-    public UserNotFoundException(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 

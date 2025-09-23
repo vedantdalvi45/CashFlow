@@ -1,6 +1,6 @@
 package com.vedalvi.CashFlow.security;
 
-import com.vedalvi.CashFlow.exception.UserNotFoundException;
+import com.vedalvi.CashFlow.exception.NotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (userDetails == null) {
-                throw new UserNotFoundException((long)1);
+                throw new NotFoundException((long)1);
             }
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
