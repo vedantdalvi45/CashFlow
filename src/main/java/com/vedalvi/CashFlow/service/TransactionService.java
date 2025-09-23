@@ -1,27 +1,31 @@
 package com.vedalvi.CashFlow.service;
 
-import com.vedalvi.CashFlow.exception.ResourceNotFoundException;
 import com.vedalvi.CashFlow.model.Transaction;
-import com.vedalvi.CashFlow.model.User;
-import com.vedalvi.CashFlow.repository.TransactionRepository;
-import com.vedalvi.CashFlow.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class TransactionService {
+public interface TransactionService {
 
-    private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
+    Transaction createTransaction(Transaction transaction);
 
-    public List<Transaction> getTransactionsForUser(String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
-        return transactionRepository.findByUserIdOrderByTimeDesc(user.getId());
-    }
+    Transaction getTransactionById(Long id);
 
-    // Add logic for creating, updating, and deleting transactions
+    List<Transaction> getAllTransactions();
+
+    List<Transaction> getTransactionsByUserId(String userId);
+
+    Transaction updateTransaction(Long id, Transaction transaction);
+
+    void deleteTransaction(Long id);
+
+    List<Transaction> getTransactionsByType(String type);
+
+    List<Transaction> getTransactionsBetweenDates(String startDate, String endDate);
+
+    Double getTotalAmountByUserId(Long userId);
+
+    boolean validateTransaction(Transaction transaction);
+
+    Transaction processTransaction(Transaction transaction);
+
 }
