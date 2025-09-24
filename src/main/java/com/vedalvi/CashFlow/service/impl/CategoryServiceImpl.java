@@ -76,8 +76,18 @@ public class CategoryServiceImpl implements CategoryService {
     public String uploadImage(String categoryName, String userEmail, MultipartFile multipartFile) {
         String imageUrl = null;
         try {
+            String originalFilename = multipartFile.getOriginalFilename();
+            String extension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+            }
+            String publicId =categoryName;
             Map uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(),
-                    ObjectUtils.asMap("folder", "users/" + userEmail + "/" + new Date().getTime() + multipartFile.getOriginalFilename()));
+                    ObjectUtils.asMap("folder", "CashFlow/users/" + userEmail + "/categories/",
+                            "public_id", publicId,
+                            "overwrite", true,
+                            "resource_type", "image",
+                            "format", extension));
             imageUrl = uploadResult.get("secure_url").toString();
         }catch (IOException e){}
         if (imageUrl != null){
