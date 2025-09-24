@@ -35,8 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(CategoryDto categoryDto, String userEmail) {
-        Category category1 = categoryRepository.findCategoryByName(categoryDto.getName());
-        if (category1 != null) {
+        Category category1 = categoryRepository.findCategoryByNameAndUserEmail(categoryDto.getName(), userEmail);
+        List<Category> categories = categoryRepository.findByUserEmail(userEmail);
+
+        System.out.println(userEmail);
+        if (category1 != null && !categories.isEmpty()) {
             if (category1.getName().equals(categoryDto.getName()))
                 throw new DuplicateEntryException("Category already exists");
         }
@@ -58,8 +61,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long categoryId, Category categoryDetails, String userEmail) {
-        return null;
+    public Category updateCategory(Category categoryDetails, String userEmail) {
+
+        Category category = categoryRepository.findCategoryByNameAndUserEmail(categoryDetails.getName(),userEmail);
+        if (category == null) {
+            throw new NotFoundException("Category not found for the given Name and user.");
+        }
+        category.setName(categoryDetails.getName());
+        category.setImageUrl(categoryDetails.getImageUrl());
+        category.setCategoryType(categoryDetails.getCategoryType());
+        categoryRepository.save(category);
+        return category;
     }
 
     @Override
@@ -91,7 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
             imageUrl = uploadResult.get("secure_url").toString();
         }catch (IOException e){}
         if (imageUrl != null){
-            Category category = categoryRepository.findCategoryByName(categoryName);
+            Category category = categoryRepository.findCategoryByNameAndUserEmail(categoryName,userEmail);
             category.setImageUrl(imageUrl);
             categoryRepository.save(category);
         }

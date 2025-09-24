@@ -32,6 +32,8 @@ public class CategoryController {
             @AuthenticationPrincipal CustomUserDetails currentUser) {
 
         Category createdCategory = categoryService.createCategory(categoryDto, currentUser.getUsername());
+        System.out.println();
+
         CategoriesResponse categoriesResponse = CategoriesResponse.builder()
                 .id(createdCategory.getId())
                 .name(createdCategory.getName())
@@ -40,7 +42,9 @@ public class CategoryController {
         return new ResponseEntity<>(categoriesResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping
+
+
+    @GetMapping("/all")
     public ResponseEntity<List<CategoriesResponse>> getCategories(@AuthenticationPrincipal CustomUserDetails currentUser) {
         List<Category> categories = categoryService.getCategoriesForUser(currentUser.getUsername());
         List<CategoriesResponse> categoriesResponse = categories.stream()
@@ -63,6 +67,7 @@ public class CategoryController {
 
     @PostMapping("/upload/{categoryName}")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile multipartFile, @PathVariable String categoryName, @AuthenticationPrincipal CustomUserDetails currentUser){
+        System.out.println(currentUser.getUsername());
         String imageUrl = categoryService.uploadImage(categoryName, currentUser.getUsername(), multipartFile);
         return new ResponseEntity<>(imageUrl, HttpStatus.OK);
     }

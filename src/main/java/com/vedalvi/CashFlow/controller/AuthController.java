@@ -54,7 +54,7 @@ public class AuthController {
                 .lastName(signUpRequest.getLastName())
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword())) // Encode the password!
-                .role(UserRole.USER) // Default role
+                .role(UserRole.ROLE_USER) // Default role
                 .accountType(AccountType.FREE) // Default account type
                 .registrationTime(Instant.now())
                 .build();

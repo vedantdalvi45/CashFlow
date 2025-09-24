@@ -13,4 +13,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findByUserEmail(String userEmail);
 
     Category findCategoryByName(String name);
+
+    Category findCategoryByNameAndUserEmail(@NotBlank(message = "Category name cannot be blank") @Size(min = 2, max = 100, message = "Category name must be between 2 and 100 characters") String name, String userEmail);
 }

@@ -12,7 +12,7 @@ public interface CategoryService {
 
     List<Category> getCategoriesForUser(String userEmail);
 
-    Category updateCategory(Long categoryId, Category categoryDetails, String userEmail);
+    Category updateCategory(Category categoryDetails, String userEmail);
 
     void deleteCategory(Long categoryId, String userEmail);
 
