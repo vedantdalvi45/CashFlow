@@ -13,9 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -33,7 +35,6 @@ public class CategoryController {
         CategoriesResponse categoriesResponse = CategoriesResponse.builder()
                 .id(createdCategory.getId())
                 .name(createdCategory.getName())
-                .imageUrl(createdCategory.getImageUrl())
                 .categoryType(createdCategory.getCategoryType().toString())
                 .build();
         return new ResponseEntity<>(categoriesResponse, HttpStatus.CREATED);
@@ -58,5 +59,11 @@ public class CategoryController {
     public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         categoryService.deleteCategory(categoryId, currentUser.getUsername());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/upload/{categoryName}")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile multipartFile, @PathVariable String categoryName, @AuthenticationPrincipal CustomUserDetails currentUser){
+        String imageUrl = categoryService.uploadImage(categoryName, currentUser.getUsername(), multipartFile);
+        return new ResponseEntity<>(imageUrl, HttpStatus.OK);
     }
 }
