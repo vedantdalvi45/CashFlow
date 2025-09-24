@@ -94,7 +94,7 @@ public class TransactionServiceImpl implements TransactionService {
 
                 transaction.setFromPaymentMode(fromPaymentMode);
                 fromPaymentMode.setBalance(fromPaymentMode.getBalance().subtract(requestDto.getAmount()));
-                paymentModeRepository.save(transaction.getToPaymentMode());
+                paymentModeRepository.save(transaction.getFromPaymentMode());
 
                 break;
             case "TRANSFER":
