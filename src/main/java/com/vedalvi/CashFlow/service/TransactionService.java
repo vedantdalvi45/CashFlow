@@ -1,31 +1,22 @@
 package com.vedalvi.CashFlow.service;
 
+import com.vedalvi.CashFlow.dto.request.TransactionRequest;
 import com.vedalvi.CashFlow.model.Transaction;
 
 import java.util.List;
 
 public interface TransactionService {
 
-    Transaction createTransaction(Transaction transaction);
+    List<Transaction> getTransactionsForUser(String userEmail);
 
-    Transaction getTransactionById(Long id);
+    Transaction getTransactionById(Long transactionId, String userEmail);
 
-    List<Transaction> getAllTransactions();
+    Transaction createTransaction(TransactionRequest requestDto, String userEmail);
 
-    List<Transaction> getTransactionsByUserId(Long userId);
+    Transaction updateTransaction(Long transactionId, Transaction requestDto, String userEmail);
 
-    Transaction updateTransaction(Long id, Transaction transaction);
+    void deleteTransaction(Long transactionId, String userEmail);
 
-    void deleteTransaction(Long id);
-
-    List<Transaction> getTransactionsByType(String type);
-
-    List<Transaction> getTransactionsBetweenDates(String startDate, String endDate);
-
-    Double getTotalAmountByUserId(Long userId);
-
-    boolean validateTransaction(Transaction transaction);
-
-    Transaction processTransaction(Transaction transaction);
+    Long getTransactionIdByIdAndEmail(Long transactionId, String userEmail);
 
 }

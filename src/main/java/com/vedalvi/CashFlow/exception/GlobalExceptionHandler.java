@@ -45,4 +45,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(InsufficientBalance.class)
+    public ResponseEntity<Object> handleInsufficientBalance(InsufficientBalance ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.FORBIDDEN.value());
+        body.put("error", "Insufficient Balance");
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
 }

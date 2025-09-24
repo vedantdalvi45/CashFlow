@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
@@ -33,7 +35,7 @@ public class PaymentMode {
     private PaymentPlatform paymentType;
 
     @Column(nullable = false)
-    private double balance;
+    private BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

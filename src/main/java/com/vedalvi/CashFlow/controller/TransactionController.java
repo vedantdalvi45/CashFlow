@@ -1,6 +1,7 @@
 package com.vedalvi.CashFlow.controller;
 
 
+import com.vedalvi.CashFlow.dto.request.TransactionRequest;
 import com.vedalvi.CashFlow.model.Transaction;
 import com.vedalvi.CashFlow.model.enums.TransactionType;
 import com.vedalvi.CashFlow.repository.CategoryRepository;
@@ -33,18 +34,18 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        List<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getUserId());
+        List<Transaction> transactions = transactionService.getTransactionsForUser(currentUser.getUsername());
         return ResponseEntity.ok(transactions);
     }
 
     @PostMapping
     public ResponseEntity<Transaction> createTransaction(
-            @Valid @RequestBody Transaction transaction,
+            @Valid @RequestBody TransactionRequest transaction,
             @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-        Transaction transaction1 = Transaction.builder().build();
+        Transaction createdTransaction = transactionService.createTransaction(transaction, customUserDetails.getUsername());
+        return ResponseEntity.ok(createdTransaction);
 
-        return ResponseEntity.ok(transactionService.createTransaction(transaction));
     }
 
 

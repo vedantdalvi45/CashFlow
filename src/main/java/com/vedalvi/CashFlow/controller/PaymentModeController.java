@@ -51,6 +51,7 @@ public class PaymentModeController {
                         .id(paymentMode.getId())
                         .modeName(paymentMode.getModeName())
                         .paymentType(paymentMode.getPaymentType().toString())
+                        .balance(paymentMode.getBalance())
                         .build())
                 .toList();
 

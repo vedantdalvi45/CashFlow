@@ -12,6 +12,8 @@ import com.vedalvi.CashFlow.service.PaymentModeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,10 +34,12 @@ public class PaymentModeServiceImpl implements PaymentModeService {
         }
 
 
-        PaymentMode paymentMode = new PaymentMode();
-        paymentMode.setModeName(paymentModeDto.getModeName());
-        paymentMode.setPaymentType(paymentModeDto.getPaymentType());
-        paymentMode.setUser(user); // Associate with the current user
+        PaymentMode paymentMode = PaymentMode.builder()
+                .modeName(paymentModeDto.getModeName())
+                .paymentType(paymentModeDto.getPaymentType())
+                .balance(new BigDecimal(0))
+                .user(user) // Associate with the current user
+                .build();
 
         return paymentModeRepository.save(paymentMode);
     }
