@@ -2,15 +2,19 @@ package com.vedalvi.CashFlow.controller;
 
 
 import com.vedalvi.CashFlow.model.Transaction;
+import com.vedalvi.CashFlow.model.enums.TransactionType;
+import com.vedalvi.CashFlow.repository.CategoryRepository;
+import com.vedalvi.CashFlow.repository.UserRepository;
 import com.vedalvi.CashFlow.security.CustomUserDetails;
 import com.vedalvi.CashFlow.service.impl.TransactionServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -18,13 +22,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionController {
 
+    @Autowired
     private final TransactionServiceImpl transactionService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
         List<Transaction> transactions = transactionService.getTransactionsByUserId(currentUser.getUserId());
         return ResponseEntity.ok(transactions);
     }
+
+    @PostMapping
+    public ResponseEntity<Transaction> createTransaction(
+            @Valid @RequestBody Transaction transaction,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails){
+
+        Transaction transaction1 = Transaction.builder().build();
+
+        return ResponseEntity.ok(transactionService.createTransaction(transaction));
+    }
+
+
+
+
 
 
 
