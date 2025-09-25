@@ -29,7 +29,7 @@ public class Attachment {
     @Column(length = 2048, nullable = false)
     private String fileUrl;
 
-    @Column(length = 100)
+    @Column(length = 100,unique = true)
     private String fileType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
