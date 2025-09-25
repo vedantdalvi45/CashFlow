@@ -1,41 +1,47 @@
 package com.vedalvi.CashFlow.controller;
 
 
+import com.vedalvi.CashFlow.dto.response.TransactionResponse;
 import com.vedalvi.CashFlow.dto.request.TransactionRequest;
 import com.vedalvi.CashFlow.model.Transaction;
-import com.vedalvi.CashFlow.model.enums.TransactionType;
-import com.vedalvi.CashFlow.repository.CategoryRepository;
-import com.vedalvi.CashFlow.repository.UserRepository;
 import com.vedalvi.CashFlow.security.CustomUserDetails;
-import com.vedalvi.CashFlow.service.impl.TransactionServiceImpl;
+import com.vedalvi.CashFlow.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
 
-    @Autowired
-    private final TransactionServiceImpl transactionService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    // Use the interface, not the implementation, for better decoupling.
+    // @RequiredArgsConstructor handles the injection, so @Autowired is not needed.
+    private final TransactionService transactionService;
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
+    public ResponseEntity<List<TransactionResponse>> getUserTransactions(@AuthenticationPrincipal CustomUserDetails currentUser) {
         List<Transaction> transactions = transactionService.getTransactionsForUser(currentUser.getUsername());
-        return ResponseEntity.ok(transactions);
+
+        // Map the list of Transaction entities to a list of TransactionResponse DTOs
+        List<TransactionResponse> transactionResponses = transactions.stream()
+                .map(transaction -> TransactionResponse.builder()
+                        .id(transaction.getId())
+                        .amount(transaction.getAmount())
+                        .transactionType(transaction.getType().name())
+                        .time(transaction.getTime())
+                        .description(transaction.getDescription())
+                        .categoryName(transaction.getCategory().getName())
+                        .build())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(transactionResponses);
     }
 
     @PostMapping
