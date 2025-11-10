@@ -1,33 +1,33 @@
-# Cash Flow: Strategic Financial Management
+# 💸 Cash Flow: Strategic Financial Management
 
 This repository contains the complete Spring Boot backend for **Cash Flow**, a sophisticated Android application engineered for strategic expense tracking, budget orchestration, and in-depth spending analysis.
 
 This platform consolidates diverse financial accounts into a single, unified dashboard, converting raw financial data into granular, actionable insights. It empowers users to execute their savings strategies and make informed fiscal decisions with absolute confidence.
 
-## Table of Contents
+## 📜 Table of Contents
 
-  - [Features](https://www.google.com/search?q=%23features)
-  - [Tech Stack](https://www.google.com/search?q=%23tech-stack)
-  - [Database Schema](https://www.google.com/search?q=%23database-schema)
-  - [Project Structure](https://www.google.com/search?q=%23project-structure)
-  - [Configuration & Setup](https://www.google.com/search?q=%23configuration--setup)
-  - [How to Run (Local)](https://www.google.com/search?q=%23how-to-run-local)
-  - [How to Run (Docker)](https://www.google.com/search?q=%23how-to-run-docker)
-  - [API Endpoints](https://www.google.com/search?q=%23api-endpoints)
-  - [License](https://www.google.com/search?q=%23license)
+  - [✨ Features](https://www.google.com/search?q=%23features)
+  - [🛠️ Tech Stack](https://www.google.com/search?q=%23tech-stack)
+  - [🗃️ Database Schema](https://www.google.com/search?q=%23database-schema)
+  - [🏗️ Project Structure](https://www.google.com/search?q=%23project-structure)
+  - [⚙️ Configuration & Setup](https://www.google.com/search?q=%23configuration--setup)
+  - [💻 How to Run (Local)](https://www.google.com/search?q=%23how-to-run-local)
+  - [🐳 How to Run (Docker)](https://www.google.com/search?q=%23how-to-run-docker)
+  - [🔌 API Endpoints](https://www.google.com/search?q=%23api-endpoints)
+  - [📄 License](https://www.google.com/search?q=%23license)
 
-## Features
+## ✨ Features
 
-  * **JWT Security:** Secure REST API using Spring Security 6 and JSON Web Tokens.
-  * **Role-Based Access Control:** Differentiates between `USER` and `ADMIN` roles.
-  * **Account-Type Restriction:** Premium features can be restricted to `PREMIUM` account types.
-  * **Full CRUD Operations:** Comprehensive management for transactions, categories, and payment modes.
-  * **Smart Ledger:** Calculates credits and debits for each payment mode.
-  * **Shared & Custom Data:** Supports default categories (e.g., "Food") and user-created custom categories.
-  * **File Uploads:** Attach receipts (via Cloudinary) to any transaction.
-  * **Tagging System:** Many-to-many relationship for tagging transactions.
+  * **🔐 JWT Security:** Secure REST API using Spring Security 6 and JSON Web Tokens.
+  * **👥 Role-Based Access Control:** Differentiates between `USER` and `ADMIN` roles.
+  * **⭐️ Account-Type Restriction:** Premium features can be restricted to `PREMIUM` account types.
+  * **🔄 Full CRUD Operations:** Comprehensive management for transactions, categories, and payment modes.
+  * **📈 Smart Ledger:** Calculates credits and debits for each payment mode.
+  * **🎨 Shared & Custom Data:** Supports default categories (e.g., "Food") and user-created custom categories.
+  * **📎 File Uploads:** Attach receipts (via Cloudinary) to any transaction.
+  * **🏷️ Tagging System:** Many-to-many relationship for tagging transactions.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
   * **Framework:** Spring Boot 3
   * **Language:** Java 21 (LTS)
@@ -39,7 +39,7 @@ This platform consolidates diverse financial accounts into a single, unified das
   * **File Storage:** Cloudinary
   * **Utilities:** Lombok, ModelMapper, Jakarta Bean Validation
 
-## Database Schema
+## 🗃️ Database Schema
 
 The database is designed to be efficient and scalable, separating user-specific data from shared default data.
 
@@ -121,7 +121,7 @@ Enum PaymentPlatform { BANK, WALLET, CASH, CREDIT_CARD, OTHER }
 Enum TransactionType { INCOME, EXPENSE, TRANSFER }
 ```
 
-## Project Structure
+## 🏗️ Project Structure
 
 The project follows a standard layered architecture for separation of concerns.
 
@@ -182,7 +182,7 @@ src/main/java/com/vedalvi/CashFlow
     ├── ...
 ```
 
-## Configuration & Setup
+## ⚙️ Configuration & Setup
 
 Before running the application, you must set up your environment variables. The application uses environment variables for all sensitive configuration.
 
@@ -190,7 +190,7 @@ Create an `application.properties` file in `src/main/resources/` or set these as
 
 ```properties
 # ---------------------------------
-# PostgreSQL Database Configuration
+# 🐘 PostgreSQL Database Configuration
 # ---------------------------------
 # Use separate databases for dev and test
 spring.datasource.url=jdbc:postgresql://<YOUR_HOST>:5432/cashflow_db
@@ -198,26 +198,26 @@ spring.datasource.username=<YOUR_USERNAME>
 spring.datasource.password=<YOUR_PASSWORD>
 
 # ---------------------------------
-# JPA & Hibernate Configuration
+# 💾 JPA & Hibernate Configuration
 # ---------------------------------
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.show-sql=true
 
 # ---------------------------------
-# JWT Secret Configuration
+# 🔑 JWT Secret Configuration
 # ---------------------------------
 # Generate a strong Base64-encoded key (e.g., openssl rand -base64 32)
 application.security.jwt.secret-key=<YOUR_SUPER_SECRET_JWT_KEY>
 application.security.jwt.expiration=86400000 # 24 hours in ms
 
 # ---------------------------------
-# Cloudinary (for file uploads)
+# ☁️ Cloudinary (for file uploads)
 # ---------------------------------
 cloudinary.url=cloudinary://<API_KEY>:<API_SECRET>@<CLOUD_NAME>
 ```
 
-## API Endpoints
+## 🔌 API Endpoints
 
 All endpoints (except `/api/auth/**`) require a valid `Bearer Token` in the `Authorization` header.
 
@@ -257,7 +257,7 @@ All endpoints (except `/api/auth/**`) require a valid `Bearer Token` in the `Aut
 | `PUT` | `/api/transactions/{id}` | Update a transaction (must be owner). |
 | `DELETE` | `/api/transactions/{id}` | Delete a transaction (must be owner). |
 
-### Attachments
+### Attachments (`/api/attachments`)
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -265,8 +265,7 @@ All endpoints (except `/api/auth/**`) require a valid `Bearer Token` in the `Aut
 | `GET` | `/api/transactions/{transactionId}/attachments` | Get all attachments for a transaction. |
 | `DELETE` | `/api/attachments/{attachmentId}` | Delete an attachment (must be owner). |
 
-
-## How to Run (Local)
+## 💻 How to Run (Local)
 
 1.  **Prerequisites:**
 
@@ -306,7 +305,7 @@ All endpoints (except `/api/auth/**`) require a valid `Bearer Token` in the `Aut
 
 The application will start on `http://localhost:8080`.
 
-## How to Run (Docker)
+## 🐳 How to Run (Docker)
 
 The included `Dockerfile` builds a multi-stage, optimized image.
 
@@ -331,3 +330,5 @@ The included `Dockerfile` builds a multi-stage, optimized image.
     ```
 
     > **Note:** If connecting to a PostgreSQL instance on your host machine, use your host's network IP, not `localhost`.
+
+
